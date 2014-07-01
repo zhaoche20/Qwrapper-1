@@ -59,10 +59,8 @@ public class Wrapper_gjdairoz002 implements QunarCrawler {
             post.getParams().setContentCharset("UTF-8");
             throwExceptionByResponseCode(httpClient.executeMethod(post),200);
             String result= post.getResponseBodyAsString();
-            System.out.println(result);
             result= StringUtils.substringBetween(result, "tableType02 one-ticket", "</table>");
             String result1= StringUtils.substringBetween(result, "<td class=\"gline col1 row4\"", "</td>");
-
             if(result1.contains("class=\"userNoneInner\""))
             {
                 return Constants.INVALID_DATE;
