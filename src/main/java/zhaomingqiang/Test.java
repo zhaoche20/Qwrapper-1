@@ -22,7 +22,6 @@ public class Test extends TestCase {
         QunarCrawler qunarCrawler=new Wrapper_gjdair5j001();
         FlightSearchParam flightSearchParam=new FlightSearchParam();
         flightSearchParam.setDep("MNL");
-
         flightSearchParam.setArr("NRT");
         flightSearchParam.setDepDate("2014-07-11");
         //flightSearchParam.setToken("4TU2XY");
