@@ -220,9 +220,9 @@ public class Wrapper_gjdairoz002 implements QunarCrawler {
             }
         }catch (Exception e)
         {
-            e.printStackTrace();
+            processResultInfo.setStatus(Constants.PARSING_FAIL);
+            return processResultInfo;
         }
-        return null;
     }
     private void handleDepDate(FlightSegement flightSegement,Date date,String s,boolean isDepDate)
     {
