@@ -2,9 +2,12 @@ package zhaomingqiang;
 
 import com.alibaba.fastjson.JSON;
 import com.qunar.qfwrapper.bean.search.FlightSearchParam;
+import com.qunar.qfwrapper.bean.search.OneWayFlightInfo;
 import com.qunar.qfwrapper.bean.search.ProcessResultInfo;
 import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import junit.framework.TestCase;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,6 +29,22 @@ public class Test extends TestCase {
         flightSearchParam.setDepDate("2014-07-11");
         //flightSearchParam.setToken("4TU2XY");
         flightSearchParam.setTimeOut("40000");
+        String html=qunarCrawler.getHtml(flightSearchParam);
+        System.out.println(html);
+        System.out.println("---------------------------------------------");
+        ProcessResultInfo info= qunarCrawler.process(html, flightSearchParam);
+        System.out.println(System.currentTimeMillis()-s);
+        System.out.println(JSON.toJSONString(info));
+    }
+    public void testWrapper_gjdairoz002()
+    {
+        long s=System.currentTimeMillis();
+        //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
+        QunarCrawler qunarCrawler=new Wrapper_gjdairoz002();
+        FlightSearchParam flightSearchParam=new FlightSearchParam();
+        flightSearchParam.setDepDate("2014-07-12");
+        flightSearchParam.setDep("PVG");
+        flightSearchParam.setArr("NRT"); //SIN
         String html=qunarCrawler.getHtml(flightSearchParam);
         System.out.println(html);
         System.out.println("---------------------------------------------");

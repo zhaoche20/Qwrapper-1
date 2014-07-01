@@ -1,0 +1,172 @@
+{"data": [
+    {
+        "detail": {
+            "arrcity": "NRT",
+            "depcity": "PVG",
+            "depdate": 1405094400000,
+            "flightno": ["OZ366", "OZ102"],
+            "monetaryunit": "CNY",
+            "price": 3076,
+            "status": 0,
+            "tax": 0
+        },
+        "info": [
+            {
+                "arrDate": "2014-07-12",
+                "arrairport": "ICN",
+                "arrtime": "11:30",
+                "company": "OZ",
+                "depDate": "2014-07-12",
+                "depairport": "PVG",
+                "deptime": "08:35",
+                "flightno": "OZ368"
+            },
+            {
+                "arrDate": "2014-07-12",
+                "arrairport": "NRT",
+                "arrtime": "17:30",
+                "company": "OZ",
+                "depDate": "2014-07-12",
+                "depairport": "ICN",
+                "deptime": "15:10",
+                "flightno": "OZ106"
+            }
+        ]
+    },
+    {
+        "detail": {
+            "arrcity": "NRT",
+            "depcity": "PVG",
+            "depdate": 1405094400000,
+            "flightno": ["OZ366", "OZ102"],
+            "monetaryunit": "CNY",
+            "price": 3076,
+            "status": 0,
+            "tax": 0
+        },
+        "info": [
+            {
+                "arrDate": "2014-07-12",
+                "arrairport": "ICN",
+                "arrtime": "11:30",
+                "company": "OZ",
+                "depDate": "2014-07-12",
+                "depairport": "PVG",
+                "deptime": "08:35",
+                "flightno": "OZ368"
+            },
+            {
+                "arrDate": "2014-07-12",
+                "arrairport": "NRT",
+                "arrtime": "21:00",
+                "company": "OZ",
+                "depDate": "2014-07-12",
+                "depairport": "ICN",
+                "deptime": "18:50",
+                "flightno": "OZ108"
+            }
+        ]
+    },
+    {
+        "detail": {
+            "arrcity": "NRT",
+            "depcity": "PVG",
+            "depdate": 1405094400000,
+            "flightno": ["OZ366", "OZ102"],
+            "monetaryunit": "CNY",
+            "price": 3076,
+            "status": 0,
+            "tax": 0
+        },
+        "info": [
+            {
+                "arrDate": "2014-07-12",
+                "arrairport": "ICN",
+                "arrtime": "14:30",
+                "company": "OZ",
+                "depDate": "2014-07-12",
+                "depairport": "PVG",
+                "deptime": "11:40",
+                "flightno": "OZ362"
+            },
+            {
+                "arrDate": "2014-07-12",
+                "arrairport": "NRT",
+                "arrtime": "21:00",
+                "company": "OZ",
+                "depDate": "2014-07-12",
+                "depairport": "ICN",
+                "deptime": "18:50",
+                "flightno": "OZ108"
+            }
+        ]
+    },
+    {
+        "detail": {
+            "arrcity": "NRT",
+            "depcity": "PVG",
+            "depdate": 1405094400000,
+            "flightno": ["OZ366", "OZ102"],
+            "monetaryunit": "CNY",
+            "price": 3076,
+            "status": 0,
+            "tax": 0
+        },
+        "info": [
+            {
+                "arrDate": "2014-07-12",
+                "arrairport": "ICN",
+                "arrtime": "15:55",
+                "company": "OZ",
+                "depDate": "2014-07-12",
+                "depairport": "PVG",
+                "deptime": "13:00",
+                "flightno": "OZ364"
+            },
+            {
+                "arrDate": "2014-07-12",
+                "arrairport": "NRT",
+                "arrtime": "21:00",
+                "company": "OZ",
+                "depDate": "2014-07-12",
+                "depairport": "ICN",
+                "deptime": "18:50",
+                "flightno": "OZ108"
+            }
+        ]
+    },
+    {
+        "detail": {
+            "arrcity": "NRT",
+            "depcity": "PVG",
+            "depdate": 1405094400000,
+            "flightno": ["OZ366", "OZ102"],
+            "monetaryunit": "CNY",
+            "price": 3076,
+            "status": 0,
+            "tax": 0
+        },
+        "info": [
+            {
+                "arrDate": "2014-07-12",
+                "arrairport": "ICN",
+                "arrtime": "19:15",
+                "company": "OZ",
+                "depDate": "2014-07-12",
+                "depairport": "PVG",
+                "deptime": "16:20",
+                "flightno": "OZ366"
+            },
+            {
+                "arrDate": "2014-07-13",
+                "arrairport": "NRT",
+                "arrtime": "11:10",
+                "company": "OZ",
+                "depDate": "2014-07-13",
+                "depairport": "ICN",
+                "deptime": "09:00",
+                "flightno": "OZ102"
+            }
+        ]
+    }
+], "ret": true, "status": "SUCCESS"}
