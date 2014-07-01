@@ -39,6 +39,7 @@ public class Test extends TestCase {
     public void testWrapper_gjdairoz002()
     {
         long s=System.currentTimeMillis();
+
         //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
         QunarCrawler qunarCrawler=new Wrapper_gjdairoz002();
         FlightSearchParam flightSearchParam=new FlightSearchParam();
