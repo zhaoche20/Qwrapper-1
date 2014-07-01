@@ -1,4 +1,4 @@
-package qurunjing;
+package qiurunjing;
 
 import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import java.text.SimpleDateFormat;
@@ -12,8 +12,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.qunar.moneyeye.wrapper.Collector;
 import com.qunar.moneyeye.wrapper.WrapperCounter.Key;
 import com.qunar.qfwrapper.bean.booking.BookingInfo;
@@ -25,12 +23,12 @@ import com.qunar.qfwrapper.bean.search.OneWayFlightInfo;
 import com.qunar.qfwrapper.bean.search.ProcessResultInfo;
 import com.qunar.qfwrapper.constants.Constants;
 import com.qunar.qfwrapper.developer.QFPostMethod;
-import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import com.qunar.qfwrapper.util.QFHttpClient;
 import com.travelco.rdf.infocenter.InfoCenter;
+
 /**
  * Created with IntelliJ IDEA.
- * User: mingqiang.zhao
+ * User:
  * Date: 14-7-1
  * Time: 上午10:55
  * To change this template use File | Settings | File Templates.
