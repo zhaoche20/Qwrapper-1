@@ -1,4 +1,5 @@
 package zhaomingqiang;
+
 import com.qunar.qfwrapper.bean.booking.BookingInfo;
 import com.qunar.qfwrapper.bean.booking.BookingResult;
 import com.qunar.qfwrapper.bean.search.*;
@@ -43,7 +44,7 @@ public class Wrapper_gjdair5j001 implements QunarCrawler {
             "numberOfMarkets=1&keyDelimeter=%2C&flightKeys=";
     private static final String CODEBASE = "gjdair5j001";
     private QFHttpClient httpClient = null;
-    @Override
+    
     public String getHtml(FlightSearchParam flightSearchParam) {
         String dep=flightSearchParam.getDep();
         String arr=flightSearchParam.getArr();
@@ -97,7 +98,7 @@ public class Wrapper_gjdair5j001 implements QunarCrawler {
         if(responseCode!=compareCode)
             throw new IOException("CONNECTION_FAIL");
     }
-    @Override
+    
     public ProcessResultInfo process(String html, FlightSearchParam flightSearchParam) {
         ProcessResultInfo processResultInfo=new ProcessResultInfo();
         List<OneWayFlightInfo> data = new ArrayList<OneWayFlightInfo>();
@@ -285,7 +286,7 @@ public class Wrapper_gjdair5j001 implements QunarCrawler {
         dateAndTime[0]=mdy[2]+"-"+mdy[0]+"-"+mdy[1];
         return dateAndTime;
     }
-    @Override
+    
     public BookingResult getBookingInfo(FlightSearchParam flightSearchParam) {
         BookingResult bookingResult=new BookingResult();
         String dep=flightSearchParam.getDep();
