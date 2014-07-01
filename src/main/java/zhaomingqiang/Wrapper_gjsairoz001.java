@@ -1,4 +1,5 @@
 package zhaomingqiang;
+
 import com.qunar.qfwrapper.bean.booking.BookingInfo;
 import com.qunar.qfwrapper.bean.booking.BookingResult;
 import com.qunar.qfwrapper.bean.search.*;
@@ -10,6 +11,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.lang.StringUtils;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -19,13 +21,13 @@ import java.util.regex.Pattern;
 /**
  * Created with IntelliJ IDEA.
  * User: mingqiang.zhao
- * Date: 14-6-30
- * Time: 下午8:38
- * 韩亚航空
+ * Date: 14-7-1
+ * Time: 下午8:03
+ * 韩亚航空 往返
  * To change this template use File | Settings | File Templates.
  */
-public class Wrapper_gjdairoz002 implements QunarCrawler {
-    private static final String CODEBASE = "gjdairoz002";
+public class Wrapper_gjsairoz001 implements QunarCrawler {
+    private static final String CODEBASE = "gjsairoz001";
     private QFHttpClient httpClient = null;
     @Override
     public String getHtml(FlightSearchParam flightSearchParam) {
@@ -59,9 +61,8 @@ public class Wrapper_gjdairoz002 implements QunarCrawler {
             post.getParams().setContentCharset("UTF-8");
             throwExceptionByResponseCode(httpClient.executeMethod(post),200);
             String result= post.getResponseBodyAsString();
-            System.out.println(result);
             result= StringUtils.substringBetween(result, "tableType02 one-ticket", "</table>");
-            String result1= StringUtils.substringBetween(result, "<td class=\"gline col1 row4\"", "</td>");
+            String result1= StringUtils.substringBetween(result, "<td class=\"gline col4 row4\"", "</td>");
 
             if(result1.contains("class=\"userNoneInner\""))
             {

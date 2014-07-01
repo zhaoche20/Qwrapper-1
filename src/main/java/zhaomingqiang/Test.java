@@ -43,7 +43,7 @@ public class Test extends TestCase {
         //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
         QunarCrawler qunarCrawler=new Wrapper_gjdairoz002();
         FlightSearchParam flightSearchParam=new FlightSearchParam();
-        flightSearchParam.setDepDate("2014-07-12");
+        flightSearchParam.setDepDate("2014-07-01");
         flightSearchParam.setDep("PVG");
         flightSearchParam.setArr("NRT"); //SIN
         String html=qunarCrawler.getHtml(flightSearchParam);
