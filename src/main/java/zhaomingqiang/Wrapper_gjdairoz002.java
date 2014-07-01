@@ -58,7 +58,6 @@ public class Wrapper_gjdairoz002 implements QunarCrawler {
             post.setRequestHeader("Referer", "http://cn.flyasiana.com/C/ch/main.do");
             post.getParams().setContentCharset("UTF-8");
             throwExceptionByResponseCode(httpClient.executeMethod(post),200);
-
             String result= post.getResponseBodyAsString();
             result= StringUtils.substringBetween(result, "tableType02 one-ticket", "</table>");
             String result1= StringUtils.substringBetween(result, "<td class=\"gline col1 row4\"", "</td>");
