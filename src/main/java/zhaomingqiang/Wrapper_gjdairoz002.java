@@ -248,7 +248,7 @@ public class Wrapper_gjdairoz002 implements QunarCrawler {
         BookingResult bookingResult=new BookingResult();
         String dep=flightSearchParam.getDep();
         String arr=flightSearchParam.getArr();
-        String depDate=flightSearchParam.getDepDate();
+        String depDate=flightSearchParam.getDepDate().replaceAll("-", "");
         BookingInfo bookingInfo=new BookingInfo();
         bookingInfo.setAction("http://cn.flyasiana.com/I/ch/RevenueInternationalFareDrivenFlightSelect.do");
         bookingInfo.setContentType("UTF-8");
