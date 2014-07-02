@@ -1,5 +1,4 @@
 package qiurunjing;
-
 import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,8 +11,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import com.qunar.moneyeye.wrapper.Collector;
-import com.qunar.moneyeye.wrapper.WrapperCounter.Key;
 import com.qunar.qfwrapper.bean.booking.BookingInfo;
 import com.qunar.qfwrapper.bean.booking.BookingResult;
 import com.qunar.qfwrapper.bean.search.FlightDetail;
@@ -25,7 +22,6 @@ import com.qunar.qfwrapper.constants.Constants;
 import com.qunar.qfwrapper.developer.QFPostMethod;
 import com.qunar.qfwrapper.util.QFHttpClient;
 import com.travelco.rdf.infocenter.InfoCenter;
-
 /**
  * Created with IntelliJ IDEA.
  * User:
@@ -34,10 +30,9 @@ import com.travelco.rdf.infocenter.InfoCenter;
  * To change this template use File | Settings | File Templates.
  */
 public class Wrapper_gjdairsv001 implements QunarCrawler {
-
     private static final String CODEBASE = "gjdairsv001";
     private QFHttpClient httpClient = null;
-    private FlightSearchParam param = new FlightSearchParam();
+    private FlightSearchParam param = null;
 
     @Override
     public String getHtml(FlightSearchParam param) {
@@ -50,19 +45,14 @@ public class Wrapper_gjdairsv001 implements QunarCrawler {
                 "http://www.bookonline.saudiairlines.com/pl/SaudiAirlines/wds/Override.action");// new一个跳转的post
         String dep = param.getDep().toString();
         String arr = param.getArr().toString();
-
         try {
             String Mid_B_DATE_1 = param.getDepDate().replaceAll("-", "") + "0000";// 将取出的时间串格式化与Post中的格式一致。
-
             String[] Split_Date1 = param.getDepDate().split("-");
-
             String Field_Date1 = Split_Date1[2] + "/" + Split_Date1[1] + "/" + Split_Date1[0];
-
             String B_LOCATION_auto = InfoCenter.getCityFromAirportCode(dep);
             B_LOCATION_auto = InfoCenter.getCityFromAnyCode(dep, "en");
             String E_LOCATION_auto = InfoCenter.getCityFromAirportCode(arr);
             E_LOCATION_auto = InfoCenter.getCityFromAnyCode(arr, "en");
-
             String midpostBody = "&TRIP_TYPE=O" + "&B_LOCATION_auto=" + B_LOCATION_auto + "&B_LOCATION=" + dep
                     + "&E_LOCATION_auto=" + E_LOCATION_auto + "&E_LOCATION=" + arr + "&textfield2=" + Field_Date1
                     + "&DATE_1=" + Mid_B_DATE_1 + "&textfield2=" + "&DATE_2=" + "&adults=1" + "&TRAVELLER_TYPE_1=ADT"
@@ -75,32 +65,25 @@ public class Wrapper_gjdairsv001 implements QunarCrawler {
                     + "&SO_SITE_ATC_FARE_DRIVEN=TRUE" + "&SO_SITE_ATC_SCHEDULE_DRIVEN=FALSE" + "&WDS_PAY_NOW=TRUE"
                     + "&WDS_CANCEL_PNR=TRUE" + "&SO_SITE_ALLOW_PNR_CANCEL=Y" + "&SO_SITE_ALLOW_ON_HOLD_CANCEL=TRUE"
                     + "&SO_SITE_ALLOW_TKT_PNR_CANCEL=Y&WDS_JOIN_ALFURSAN=TRUE";
-
             midpostMethod.setRequestEntity(new StringRequestEntity(midpostBody, "application/x-www-form-urlencoded",
                     null));
-            midpostMethod
-                    .addRequestHeader(
-                            "Referer",
-                            "http://www.saudiairlines.com/portal/site/saudiairlines/menuitem.aeabf36fd343b335173ff63dc8f034a0/?vgnextoid=82aae1cb93e70110VgnVCM1000008c0f430aRCRD");
+            midpostMethod .addRequestHeader(
+                    "Referer",
+                    "http://www.saudiairlines.com/portal/site/saudiairlines/menuitem.aeabf36fd343b335173ff63dc8f034a0/?vgnextoid=82aae1cb93e70110VgnVCM1000008c0f430aRCRD");
             httpClient.executeMethod(midpostMethod);
-
             String midResult = midpostMethod.getResponseBodyAsString();// 将midPost的内容post给服务器取出Post需要的PostData
-
 			/* System.out.println("+=++=+++midResult+++=++=+="+midResult); */
-
             String B_DATE_1 = param.getDepDate().replaceAll("-", "") + "0000";
             String B_DATE_2 = param.getDepDate().replaceAll("-", "") + "0000";
             String B_LOCATION_1 = param.getDep();
             String E_LOCATION_1 = param.getArr();// 取出Post中的变量，并且将其格式转化成需要Post需要的格式
             String officeId = "";
-
             String javascript = this.getValue(midResult, "LOCATIONS = {", "};").trim();
             javascript = this.getValue(javascript, "\"" + dep + "\" : {", "\"domestic\" :");
             officeId = this.getValue(javascript, "\"GLOBAL\" : \"", "\"},").trim();
             if ("".equals(officeId)) {
                 officeId = "WASSV08AA";
             }
-
             String postBody = "&TRIP_TYPE=O" + "&LANGUAGE=GB" + "&SITE=BDXHBDXH"
                     + "&EMBEDDED_TRANSACTION=FlexPricerAvailability" + "&EXTERNAL_ID=dummy" + "&B_DATE_1="
                     + B_DATE_1
@@ -123,9 +106,7 @@ public class Wrapper_gjdairsv001 implements QunarCrawler {
 
             String action = this.getValue(midResult, "name=\"SEARCH_COMPLEX_FORM\" method=\"post\" action=\"",
                     "\" onSubmit=\"return false;\"");
-
             postMethod = new QFPostMethod("http://www.bookonline.saudiairlines.com/pl/SaudiAirlines/wds/" + action);
-
             postMethod.setRequestEntity(new StringRequestEntity(postBody, "application/x-www-form-urlencoded", null));
             postMethod.addRequestHeader("Referer",
                     "http://www.bookonline.saudiairlines.com/pl/SaudiAirlines/wds/Override.action");
@@ -135,18 +116,14 @@ public class Wrapper_gjdairsv001 implements QunarCrawler {
         } catch (Exception e) {
             return "Exception";
         } finally {
-
             if (midpostMethod != null) {
                 midpostMethod.releaseConnection();
             }
-
             if (postMethod != null) {
                 postMethod.releaseConnection();
             }
         }
-
     }
-
     public String getValue(String source, String st, String end) {
         int a = source.indexOf(st);
         if (a == -1)
@@ -156,27 +133,24 @@ public class Wrapper_gjdairsv001 implements QunarCrawler {
             return "";
         return source.substring(a + st.length(), b);
     }
-
     @Override
     public ProcessResultInfo process(String html, FlightSearchParam flightSearchParam) {
-        ProcessResultInfo processResultInfo = new ProcessResultInfo();
+        ProcessResultInfo processResultInfo = null;
         List<OneWayFlightInfo> data = new ArrayList<OneWayFlightInfo>();
         if (html.equals("Exception") || html.startsWith("QProxy")) {
+            processResultInfo=new ProcessResultInfo();
             processResultInfo.setStatus(Constants.CONNECTION_FAIL);
-            processResultInfo.setData(data);
             return processResultInfo;
         }
         try {
             Map<String, SaudFlightD> flights = new HashMap<String, SaudFlightD>(); // 存放航班，key为航班号，值为航班
             processResultInfo = this.getFlightsInfo(html, flights);
         } catch (Exception e) {
-            Collector.count(CODEBASE, Key.PARSING_FAIL);
             processResultInfo = new ProcessResultInfo();
             processResultInfo.setStatus(Constants.PARSING_FAIL);
             return processResultInfo;
         }
-        if (processResultInfo == null) {
-            processResultInfo = new ProcessResultInfo();
+        if (processResultInfo.getData().isEmpty()) {
             processResultInfo.setStatus(Constants.NO_RESULT);
         } else
             processResultInfo.setStatus(Constants.SUCCESS);
