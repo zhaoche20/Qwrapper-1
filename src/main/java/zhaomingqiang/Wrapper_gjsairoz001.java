@@ -34,12 +34,14 @@ public class Wrapper_gjsairoz001 implements QunarCrawler {
         String dep=flightSearchParam.getDep();
         String arr=flightSearchParam.getArr();
         String depDate=flightSearchParam.getDepDate().replaceAll("-", "");
+        String retDate=flightSearchParam.getRetDate().replaceAll("-","");
         PostMethod post=null,post1=null;
         try {
             httpClient = new QFHttpClient(flightSearchParam,true);
             httpClient.getParams().setCookiePolicy(
                     CookiePolicy.BROWSER_COMPATIBILITY);
-            NameValuePair[] names={  new NameValuePair("tripType","OW"),
+            NameValuePair[] names={
+                    new NameValuePair("tripType","RT"),
                     new NameValuePair("domIntType","I"),
                     new NameValuePair("cabinClass","T"),
                     new NameValuePair("fareViewType","C"),
@@ -48,12 +50,13 @@ public class Wrapper_gjsairoz001 implements QunarCrawler {
                     new NameValuePair("arrivalArea",""),
                     new NameValuePair("arrivalAirport",arr),
                     new NameValuePair("departureDate",depDate),
-                    new NameValuePair("arrivalDate",""),
+                    new NameValuePair("arrivalDate",retDate),
                     new NameValuePair("adultCount","1"),
                     new NameValuePair("childCount","0"),
                     new NameValuePair("infantCount","0"),
                     new NameValuePair("paymentCNType","AL"),
-                    new NameValuePair("sessionUniqueKey","undefined")};
+                    new NameValuePair("sessionUniqueKey","undefined")
+            };
             post = new QFPostMethod("http://cn.flyasiana.com/I/ch/RevenueInternationalFareDrivenCalendarSelect.do");
             post.setRequestBody(names);
             post.setRequestHeader("Host","cn.flyasiana.com");
@@ -61,36 +64,42 @@ public class Wrapper_gjsairoz001 implements QunarCrawler {
             post.getParams().setContentCharset("UTF-8");
             throwExceptionByResponseCode(httpClient.executeMethod(post),200);
             String result= post.getResponseBodyAsString();
-            result= StringUtils.substringBetween(result, "tableType02 one-ticket", "</table>");
+            result= StringUtils.substringBetween(result, "class=\"tableType02\"", "</table>");
             String result1= StringUtils.substringBetween(result, "<td class=\"gline col4 row4\"", "</td>");
-
             if(result1.contains("class=\"userNoneInner\""))
             {
                 return Constants.INVALID_DATE;
             }
             else
             {
-                result=StringUtils.substringBetween(result1,"id=\"delegateFare3\">","</strong>").replaceAll(",","")+"$$";
+                result1=result1.replaceAll("\\s","");
+                result=StringUtils.substringBetween(result1,"<ahref=\"#none\">","<strong")+StringUtils.substringBetween(result1,"id=\"delegateFare24\">","</strong>").replaceAll(",","")+"$$";
             }
             post1 = new PostMethod("http://cn.flyasiana.com/I/ch/RevenueInternationalFareDrivenFlightSelect.do");
-            NameValuePair[] names1={ new NameValuePair("sessionUniqueKey","undefined"),
+            NameValuePair[] names1={
+                    new NameValuePair("sessionUniqueKey","undefined"),
                     new NameValuePair("departureDate",depDate),
-                    new NameValuePair("arrivalDate",""),
+                    new NameValuePair("arrivalDate",retDate),
                     new NameValuePair("departureArea","CN"),
                     new NameValuePair("arrivalArea",""),
                     new NameValuePair("departureAirport",dep),
                     new NameValuePair("arrivalAirport",arr),
-                    new NameValuePair("tripType","OW"),
+                    new NameValuePair("tripType","RT"),
                     new NameValuePair("domIntType","I"),
                     new NameValuePair("cabinClass","T"),
                     new NameValuePair("openDepartureArea1","CN"),
                     new NameValuePair("openDepartureAirport1",dep),
                     new NameValuePair("openArrivalArea1",""),
                     new NameValuePair("openArrivalAirport1",arr),
+                    new NameValuePair("openDepartureArea2",""),
+                    new NameValuePair("openDepartureAirport2",dep),
+                    new NameValuePair("openArrivalArea2","CN"),
+                    new NameValuePair("openArrivalAirport2",arr),
                     new NameValuePair("selDepartureDate",depDate),
-                    new NameValuePair("selArrivalDate",""),
+                    new NameValuePair("selArrivalDate",retDate),
                     new NameValuePair("hidCallPage","CAL_OF_INT"),
-                    new NameValuePair("hidPageType","S")};
+                    new NameValuePair("hidPageType","S")
+            };
             post1.setRequestBody(names1);
             post1.setRequestHeader("Host","cn.flyasiana.com");
             post1.setRequestHeader("Referer", "http://cn.flyasiana.com/I/ch/RevenueInternationalFareDrivenCalendarSelect.do");
@@ -99,6 +108,7 @@ public class Wrapper_gjsairoz001 implements QunarCrawler {
             result+= post1.getResponseBodyAsString();
             return result;
         } catch (Exception e) {
+            e.printStackTrace();
             return "Exception";
         }finally{
             if(post1!=null){
@@ -123,7 +133,7 @@ public class Wrapper_gjsairoz001 implements QunarCrawler {
     @Override
     public ProcessResultInfo process(String html, FlightSearchParam param) {
         ProcessResultInfo processResultInfo=new ProcessResultInfo();
-        List<OneWayFlightInfo> data = (List<OneWayFlightInfo>) processResultInfo.getData();
+        List<RoundTripFlightInfo> data = (List<RoundTripFlightInfo>) processResultInfo.getData();
         try
         {
             String result=getHtml(param);
@@ -140,75 +150,40 @@ public class Wrapper_gjsairoz001 implements QunarCrawler {
             else
             {
                 String priceAndUtil=result.substring(0,result.indexOf("$$"));
-                Date depDate=new SimpleDateFormat("yyyy/MM/dd").parse(StringUtils.substringBetween(result, "<span class='day'>", "("));
                 String monetaryunit=priceAndUtil.substring(0,3);
                 double price= Double.valueOf(priceAndUtil.substring(3));
-                result= StringUtils.substringBetween(result, "tdFlightList0", "</table>");
-                result=StringUtils.substringBetween(result, "<tbody>", "</tbody>");
-                String trs[]=StringUtils.substringsBetween(result,"<tr","</tr>");
+                String[] airlineDate=StringUtils.substringsBetween(result, "<span class='day'>", "(");
+                Date depDate=new SimpleDateFormat("yyyy/MM/dd").parse(airlineDate[0]);
+                Date retDate=new SimpleDateFormat("yyyy/MM/dd").parse(airlineDate[1]);
+                String tbody0=StringUtils.substringBetween(StringUtils.substringBetween(result, "tdFlightList0", "</table>"), "<tbody>", "</tbody>");
+                String tbody1=StringUtils.substringBetween(StringUtils.substringBetween(result, "tdFlightList1", "</table>"), "<tbody>", "</tbody>");
                 Pattern pNo = Pattern.compile(">(\\w+\\d+)  </span>");
                 Pattern pTime=Pattern.compile("(\\d{2}:\\d{2})( \\[\\+(\\d)\\])?");
                 Pattern pCity=Pattern.compile(" \\(([A-Z]{3})\\)");
-
-                for(int j=0,lens=trs.length;j<lens;j++)
+                List<OneWayFlightInfo> depList=getOneWayFlightInfos(tbody0,monetaryunit,price,depDate,pNo,pTime,pCity);
+                List<OneWayFlightInfo> retList=getOneWayFlightInfos(tbody1,monetaryunit,price,retDate,pNo,pTime,pCity);
+                Iterator<OneWayFlightInfo> goIterator=depList.iterator();
+                RoundTripFlightInfo roundTripFlightInfo=null;
+                OneWayFlightInfo baseFlightInfo=null;
+                OneWayFlightInfo backBaseFlightInfo=null;
+                FlightDetail flightDetail=null,backFlightDetail=null;
+                while(goIterator.hasNext())
                 {
-                    String tr=trs[j];
-                    /*if(tr.contains("class=\"goNone\""))
+                    baseFlightInfo=goIterator.next();
+                    flightDetail=baseFlightInfo.getDetail();
+                    Iterator<OneWayFlightInfo> backIterator=retList.iterator();
+                    while(backIterator.hasNext())
                     {
-                        continue;
-                    }*/
-                    List<String> noList=new ArrayList<String>();
-                    List<String> timeList=new ArrayList<String>();
-                    List<String> cityList=new ArrayList<String>();
-
-                    Matcher matcher=pNo.matcher(tr);
-                    while(matcher.find())
-                    {
-                        noList.add(matcher.group(1));
+                        backBaseFlightInfo=backIterator.next();
+                        roundTripFlightInfo=new RoundTripFlightInfo();
+                        backFlightDetail=backBaseFlightInfo.getDetail();
+                        roundTripFlightInfo.setRetinfo(backBaseFlightInfo.getInfo());
+                        roundTripFlightInfo.setDetail(flightDetail);
+                        roundTripFlightInfo.setInfo(baseFlightInfo.getInfo());
+                        roundTripFlightInfo.setRetflightno(backFlightDetail.getFlightno());
+                        roundTripFlightInfo.setRetdepdate(backBaseFlightInfo.getDetail().getDepdate());
+                        data.add(roundTripFlightInfo);
                     }
-                    Matcher matcher1=pTime.matcher(tr);
-                    while(matcher1.find())
-                    {
-                        timeList.add(matcher1.group());
-                    }
-                    Matcher matcher2=pCity.matcher(tr);
-                    while (matcher2.find())
-                    {
-                        cityList.add(matcher2.group(1));
-                    }
-                    OneWayFlightInfo oneWayFlightInfo=new OneWayFlightInfo();
-                    List<FlightSegement> info=new ArrayList<FlightSegement>();
-                    FlightDetail flightDetail=oneWayFlightInfo.getDetail();
-                    flightDetail.setMonetaryunit(monetaryunit);
-                    flightDetail.setPrice(price);
-                    flightDetail.setArrcity(cityList.get(cityList.size()-1));
-                    flightDetail.setDepcity(cityList.get(0));
-                    flightDetail.setFlightno(noList);
-                    flightDetail.setDepdate(depDate);
-                    FlightSegement flightSegement=null;
-                    for(int i=0,len=noList.size();i<len;i++)
-                    {
-                        flightSegement=new FlightSegement();
-                        if(len>1)
-                        {
-                            flightSegement.setDepairport(cityList.get(i));
-                            flightSegement.setArrairport(cityList.get(i+2));
-                            flightSegement.setFlightno(noList.get(i));
-                            handleDepDate(flightSegement,depDate,timeList.get(i),true);
-                            handleDepDate(flightSegement,depDate,timeList.get(i+2),false);
-                        }
-                        else
-                        {
-                            flightSegement.setDepairport(cityList.get(0));
-                            flightSegement.setArrairport(cityList.get(1));
-                            flightSegement.setFlightno(noList.get(0));
-                            handleDepDate(flightSegement,depDate,timeList.get(0),true);
-                            handleDepDate(flightSegement,depDate,timeList.get(1),false);
-                        }
-                        info.add(flightSegement);
-                    }
-                    oneWayFlightInfo.setInfo(info);
-                    data.add(oneWayFlightInfo);
                 }
                 if(data.isEmpty())
                 {
@@ -225,6 +200,72 @@ public class Wrapper_gjsairoz001 implements QunarCrawler {
             processResultInfo.setStatus(Constants.PARSING_FAIL);
             return processResultInfo;
         }
+    }
+
+    public List<OneWayFlightInfo> getOneWayFlightInfos(String tbody,String monetaryunit,double price,Date date,Pattern pNo,Pattern pTime,Pattern pCity)
+    {
+        List<OneWayFlightInfo> list=new ArrayList<OneWayFlightInfo>();
+        String trs[]=StringUtils.substringsBetween(tbody,"<tr","</tr>");
+        for(int j=0,lens=trs.length;j<lens;j++)
+        {
+            String tr=trs[j];
+                    /*if(tr.contains("class=\"goNone\""))
+                    {
+                        continue;
+                    }*/
+            List<String> noList=new ArrayList<String>();
+            List<String> timeList=new ArrayList<String>();
+            List<String> cityList=new ArrayList<String>();
+            Matcher matcher=pNo.matcher(tr);
+            while(matcher.find())
+            {
+                noList.add(matcher.group(1));
+            }
+            Matcher matcher1=pTime.matcher(tr);
+            while(matcher1.find())
+            {
+                timeList.add(matcher1.group());
+            }
+            Matcher matcher2=pCity.matcher(tr);
+            while (matcher2.find())
+            {
+                cityList.add(matcher2.group(1));
+            }
+            OneWayFlightInfo oneWayFlightInfo=new OneWayFlightInfo();
+            List<FlightSegement> info=new ArrayList<FlightSegement>();
+            FlightDetail flightDetail=oneWayFlightInfo.getDetail();
+            flightDetail.setMonetaryunit(monetaryunit);
+            flightDetail.setPrice(price);
+            flightDetail.setArrcity(cityList.get(cityList.size()-1));
+            flightDetail.setDepcity(cityList.get(0));
+            flightDetail.setFlightno(noList);
+            flightDetail.setDepdate(date);
+            FlightSegement flightSegement=null;
+            for(int i=0,len=noList.size();i<len;i++)
+            {
+                flightSegement=new FlightSegement();
+                if(len>1)
+                {
+                    flightSegement.setDepairport(cityList.get(i));
+                    flightSegement.setArrairport(cityList.get(i+2));
+                    flightSegement.setFlightno(noList.get(i));
+                    handleDepDate(flightSegement,date,timeList.get(i),true);
+                    handleDepDate(flightSegement,date,timeList.get(i+2),false);
+                }
+                else
+                {
+                    flightSegement.setDepairport(cityList.get(0));
+                    flightSegement.setArrairport(cityList.get(1));
+                    flightSegement.setFlightno(noList.get(0));
+                    handleDepDate(flightSegement,date,timeList.get(0),true);
+                    handleDepDate(flightSegement,date,timeList.get(1),false);
+                }
+                info.add(flightSegement);
+            }
+            oneWayFlightInfo.setInfo(info);
+            list.add(oneWayFlightInfo);
+        }
+        return  list;
     }
     private void handleDepDate(FlightSegement flightSegement,Date date,String s,boolean isDepDate)
     {

@@ -1,172 +1,390 @@
 {"data": [
     {
         "detail": {
-            "arrcity": "NRT",
+            "arrcity": "ICN",
             "depcity": "PVG",
-            "depdate": 1405094400000,
-            "flightno": ["OZ366", "OZ102"],
+            "depdate": 1404748800000,
+            "flightno": ["OZ368"],
             "monetaryunit": "CNY",
-            "price": 3076,
+            "price": 2961,
             "status": 0,
             "tax": 0
         },
         "info": [
             {
-                "arrDate": "2014-07-12",
+                "arrDate": "2014-07-08",
                 "arrairport": "ICN",
                 "arrtime": "11:30",
                 "company": "OZ",
-                "depDate": "2014-07-12",
+                "depDate": "2014-07-08",
                 "depairport": "PVG",
                 "deptime": "08:35",
                 "flightno": "OZ368"
-            },
-            {
-                "arrDate": "2014-07-12",
-                "arrairport": "NRT",
-                "arrtime": "17:30",
-                "company": "OZ",
-                "depDate": "2014-07-12",
-                "depairport": "ICN",
-                "deptime": "15:10",
-                "flightno": "OZ106"
             }
-        ]
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ361"],
+        "retinfo": [
+            {
+                "arrDate": "2014-07-18",
+                "arrairport": "PVG",
+                "arrtime": "10:05",
+                "company": "OZ",
+                "depDate": "2014-07-18",
+                "depairport": "ICN",
+                "deptime": "09:05",
+                "flightno": "OZ361"
+            }
+        ],
+        "returnedPrice": 0
     },
     {
         "detail": {
-            "arrcity": "NRT",
+            "$ref": "$.data[0].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[0].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ363"],
+        "retinfo": [
+            {
+                "arrDate": "2014-07-18",
+                "arrairport": "PVG",
+                "arrtime": "11:50",
+                "company": "OZ",
+                "depDate": "2014-07-18",
+                "depairport": "ICN",
+                "deptime": "10:50",
+                "flightno": "OZ363"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "$ref": "$.data[0].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[0].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ365"],
+        "retinfo": [
+            {
+                "arrDate": "2014-07-18",
+                "arrairport": "PVG",
+                "arrtime": "15:00",
+                "company": "OZ",
+                "depDate": "2014-07-18",
+                "depairport": "ICN",
+                "deptime": "14:00",
+                "flightno": "OZ365"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "$ref": "$.data[0].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[0].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ367"],
+        "retinfo": [
+            {
+                "arrDate": "2014-07-18",
+                "arrairport": "PVG",
+                "arrtime": "20:55",
+                "company": "OZ",
+                "depDate": "2014-07-18",
+                "depairport": "ICN",
+                "deptime": "20:00",
+                "flightno": "OZ367"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "arrcity": "ICN",
             "depcity": "PVG",
-            "depdate": 1405094400000,
-            "flightno": ["OZ366", "OZ102"],
+            "depdate": 1404748800000,
+            "flightno": ["OZ362"],
             "monetaryunit": "CNY",
-            "price": 3076,
+            "price": 2961,
             "status": 0,
             "tax": 0
         },
         "info": [
             {
-                "arrDate": "2014-07-12",
-                "arrairport": "ICN",
-                "arrtime": "11:30",
-                "company": "OZ",
-                "depDate": "2014-07-12",
-                "depairport": "PVG",
-                "deptime": "08:35",
-                "flightno": "OZ368"
-            },
-            {
-                "arrDate": "2014-07-12",
-                "arrairport": "NRT",
-                "arrtime": "21:00",
-                "company": "OZ",
-                "depDate": "2014-07-12",
-                "depairport": "ICN",
-                "deptime": "18:50",
-                "flightno": "OZ108"
-            }
-        ]
-    },
-    {
-        "detail": {
-            "arrcity": "NRT",
-            "depcity": "PVG",
-            "depdate": 1405094400000,
-            "flightno": ["OZ366", "OZ102"],
-            "monetaryunit": "CNY",
-            "price": 3076,
-            "status": 0,
-            "tax": 0
-        },
-        "info": [
-            {
-                "arrDate": "2014-07-12",
+                "arrDate": "2014-07-08",
                 "arrairport": "ICN",
                 "arrtime": "14:30",
                 "company": "OZ",
-                "depDate": "2014-07-12",
+                "depDate": "2014-07-08",
                 "depairport": "PVG",
                 "deptime": "11:40",
                 "flightno": "OZ362"
-            },
-            {
-                "arrDate": "2014-07-12",
-                "arrairport": "NRT",
-                "arrtime": "21:00",
-                "company": "OZ",
-                "depDate": "2014-07-12",
-                "depairport": "ICN",
-                "deptime": "18:50",
-                "flightno": "OZ108"
             }
-        ]
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ361"],
+        "retinfo": [
+            {
+                "$ref": "$.data[0].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
     },
     {
         "detail": {
-            "arrcity": "NRT",
+            "$ref": "$.data[4].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[4].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ363"],
+        "retinfo": [
+            {
+                "$ref": "$.data[1].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "$ref": "$.data[4].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[4].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ365"],
+        "retinfo": [
+            {
+                "$ref": "$.data[2].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "$ref": "$.data[4].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[4].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ367"],
+        "retinfo": [
+            {
+                "$ref": "$.data[3].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "arrcity": "ICN",
             "depcity": "PVG",
-            "depdate": 1405094400000,
-            "flightno": ["OZ366", "OZ102"],
+            "depdate": 1404748800000,
+            "flightno": ["OZ364"],
             "monetaryunit": "CNY",
-            "price": 3076,
+            "price": 2961,
             "status": 0,
             "tax": 0
         },
         "info": [
             {
-                "arrDate": "2014-07-12",
+                "arrDate": "2014-07-08",
                 "arrairport": "ICN",
                 "arrtime": "15:55",
                 "company": "OZ",
-                "depDate": "2014-07-12",
+                "depDate": "2014-07-08",
                 "depairport": "PVG",
                 "deptime": "13:00",
                 "flightno": "OZ364"
-            },
-            {
-                "arrDate": "2014-07-12",
-                "arrairport": "NRT",
-                "arrtime": "21:00",
-                "company": "OZ",
-                "depDate": "2014-07-12",
-                "depairport": "ICN",
-                "deptime": "18:50",
-                "flightno": "OZ108"
             }
-        ]
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ361"],
+        "retinfo": [
+            {
+                "$ref": "$.data[0].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
     },
     {
         "detail": {
-            "arrcity": "NRT",
+            "$ref": "$.data[8].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[8].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ363"],
+        "retinfo": [
+            {
+                "$ref": "$.data[1].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "$ref": "$.data[8].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[8].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ365"],
+        "retinfo": [
+            {
+                "$ref": "$.data[2].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "$ref": "$.data[8].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[8].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ367"],
+        "retinfo": [
+            {
+                "$ref": "$.data[3].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "arrcity": "ICN",
             "depcity": "PVG",
-            "depdate": 1405094400000,
-            "flightno": ["OZ366", "OZ102"],
+            "depdate": 1404748800000,
+            "flightno": ["OZ366"],
             "monetaryunit": "CNY",
-            "price": 3076,
+            "price": 2961,
             "status": 0,
             "tax": 0
         },
         "info": [
             {
-                "arrDate": "2014-07-12",
+                "arrDate": "2014-07-08",
                 "arrairport": "ICN",
                 "arrtime": "19:15",
                 "company": "OZ",
-                "depDate": "2014-07-12",
+                "depDate": "2014-07-08",
                 "depairport": "PVG",
                 "deptime": "16:20",
                 "flightno": "OZ366"
-            },
-            {
-                "arrDate": "2014-07-13",
-                "arrairport": "NRT",
-                "arrtime": "11:10",
-                "company": "OZ",
-                "depDate": "2014-07-13",
-                "depairport": "ICN",
-                "deptime": "09:00",
-                "flightno": "OZ102"
             }
-        ]
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ361"],
+        "retinfo": [
+            {
+                "$ref": "$.data[0].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "$ref": "$.data[12].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[12].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ363"],
+        "retinfo": [
+            {
+                "$ref": "$.data[1].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "$ref": "$.data[12].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[12].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ365"],
+        "retinfo": [
+            {
+                "$ref": "$.data[2].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
+    },
+    {
+        "detail": {
+            "$ref": "$.data[12].detail"
+        },
+        "info": [
+            {
+                "$ref": "$.data[12].info[0]"
+            }
+        ],
+        "outboundPrice": 0,
+        "retdepdate": 1405612800000,
+        "retflightno": ["OZ367"],
+        "retinfo": [
+            {
+                "$ref": "$.data[3].retinfo[0]"
+            }
+        ],
+        "returnedPrice": 0
     }
 ], "ret": true, "status": "SUCCESS"}

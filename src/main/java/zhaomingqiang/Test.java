@@ -43,10 +43,29 @@ public class Test extends TestCase {
         //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
         QunarCrawler qunarCrawler=new Wrapper_gjdairoz002();
         FlightSearchParam flightSearchParam=new FlightSearchParam();
-        flightSearchParam.setDepDate("2014-07-01");
+        flightSearchParam.setDepDate("2014-07-12");
         flightSearchParam.setDep("PVG");
         flightSearchParam.setArr("NRT"); //SIN
         String html=qunarCrawler.getHtml(flightSearchParam);
+        System.out.println(html);
+        System.out.println("---------------------------------------------");
+        ProcessResultInfo info= qunarCrawler.process(html, flightSearchParam);
+        System.out.println(System.currentTimeMillis()-s);
+        System.out.println(JSON.toJSONString(info));
+    }
+    public void testWrapper_gjsairoz001()
+    {
+        long s=System.currentTimeMillis();
+
+        //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
+        QunarCrawler qunarCrawler=new Wrapper_gjsairoz001();
+        FlightSearchParam flightSearchParam=new FlightSearchParam();
+        flightSearchParam.setDepDate("2014-07-08");
+        flightSearchParam.setRetDate("2014-07-18");
+        flightSearchParam.setDep("PVG");
+        flightSearchParam.setArr("ICN"); //SIN
+        String html=qunarCrawler.getHtml(flightSearchParam);
+        System.out.println("---------------------------------------------");
         System.out.println(html);
         System.out.println("---------------------------------------------");
         ProcessResultInfo info= qunarCrawler.process(html, flightSearchParam);
