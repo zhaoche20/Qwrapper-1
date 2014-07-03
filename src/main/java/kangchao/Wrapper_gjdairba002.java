@@ -19,7 +19,7 @@ import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import com.qunar.qfwrapper.util.QFGetMethod;
 import com.qunar.qfwrapper.util.QFHttpClient;
 /**
- * Initial Created by ruilin.zhao at 14-6-8
+ * Initial Created by kangchao at 14-6-8
  * <p/>
  * Description:
  */
