@@ -18,24 +18,6 @@ import java.util.List;
  */
 public class Test extends TestCase {
 
-    public void testWrapper_gjdair5j001()
-    {
-        long s=System.currentTimeMillis();
-        //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
-        QunarCrawler qunarCrawler=new Wrapper_gjdair5j001();
-        FlightSearchParam flightSearchParam=new FlightSearchParam();
-        flightSearchParam.setDep("MNL");
-        flightSearchParam.setArr("NRT");
-        flightSearchParam.setDepDate("2014-07-11");
-        //flightSearchParam.setToken("4TU2XY");
-        flightSearchParam.setTimeOut("40000");
-        String html=qunarCrawler.getHtml(flightSearchParam);
-        System.out.println(html);
-        System.out.println("---------------------------------------------");
-        ProcessResultInfo info= qunarCrawler.process(html, flightSearchParam);
-        System.out.println(System.currentTimeMillis()-s);
-        System.out.println(JSON.toJSONString(info));
-    }
     public void testWrapper_gjdairoz002()
     {
         long s=System.currentTimeMillis();
@@ -81,6 +63,27 @@ public class Test extends TestCase {
         FlightSearchParam flightSearchParam=new FlightSearchParam();
         flightSearchParam.setDepDate("2014-07-04");
         flightSearchParam.setRetDate("2014-07-11");
+        flightSearchParam.setDep("PEK");
+        flightSearchParam.setArr("HKG"); //SIN
+        String html=qunarCrawler.getHtml(flightSearchParam);
+        /*System.out.println("---------------------------------------------");
+        System.out.println(html);
+        System.out.println("---------------------------------------------");*/
+        ProcessResultInfo info= qunarCrawler.process(html, flightSearchParam);
+        System.out.println(System.currentTimeMillis()-s);
+        System.out.println(JSON.toJSONString(info));
+
+        System.out.println("====================================");
+        qunarCrawler.getBookingInfo(flightSearchParam);
+    }
+    public void testWrapper_gjd09082510()
+    {
+        long s=System.currentTimeMillis();
+
+        //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
+        QunarCrawler qunarCrawler=new Wrapper_gjd09082510();
+        FlightSearchParam flightSearchParam=new FlightSearchParam();
+        flightSearchParam.setDepDate("2014-07-04");
         flightSearchParam.setDep("PEK");
         flightSearchParam.setArr("HKG"); //SIN
         String html=qunarCrawler.getHtml(flightSearchParam);
