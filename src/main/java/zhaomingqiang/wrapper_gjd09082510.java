@@ -35,6 +35,7 @@ public class Wrapper_gjd09082510 implements QunarCrawler {
         flightSearchParam.setToken("");
         QFGetMethod get = null;
         String url = "http://amadeus.corp.qunar.com/OneWay?dep=" + dep + "&arr=" + arr + "&depDate=" + depDate + "&CarrierId=KA";
+        System.out.println(url);
         try {
             httpClient = new QFHttpClient(flightSearchParam, true);
             get = new QFGetMethod(url);
@@ -76,10 +77,9 @@ public class Wrapper_gjd09082510 implements QunarCrawler {
                 OneWayFlightInfo oneWayFlightInfo = new OneWayFlightInfo();
                 data.add(oneWayFlightInfo);
                 String[] infoItems = StringUtils.substringsBetween(iter, "<td>", "</td>");
-
                 String monetaryunit = infoItems[0];
-                String tax = infoItems[1];
-                String price = infoItems[2];
+                String price= infoItems[1];
+                String tax= infoItems[2];
                 String flightno = infoItems[3];
                 String depairport = infoItems[5];
                 String arrairport = infoItems[6];
