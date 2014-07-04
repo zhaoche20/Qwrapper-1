@@ -72,4 +72,28 @@ public class Test extends TestCase {
         System.out.println(System.currentTimeMillis()-s);
         System.out.println(JSON.toJSONString(info));
     }
+    public void testWrapper_11eab9de15d()
+    {
+        long s=System.currentTimeMillis();
+
+        //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
+        QunarCrawler qunarCrawler=new Wrapper_11eab9de15d();
+        FlightSearchParam flightSearchParam=new FlightSearchParam();
+        flightSearchParam.setDepDate("2014-07-04");
+        flightSearchParam.setRetDate("2014-07-11");
+        flightSearchParam.setDep("PEK");
+        flightSearchParam.setArr("HKG"); //SIN
+        String html=qunarCrawler.getHtml(flightSearchParam);
+        /*System.out.println("---------------------------------------------");
+        System.out.println(html);
+        System.out.println("---------------------------------------------");*/
+        ProcessResultInfo info= qunarCrawler.process(html, flightSearchParam);
+        System.out.println(System.currentTimeMillis()-s);
+        System.out.println(JSON.toJSONString(info));
+
+        System.out.println("====================================");
+        qunarCrawler.getBookingInfo(flightSearchParam);
+    }
+
+
 }
