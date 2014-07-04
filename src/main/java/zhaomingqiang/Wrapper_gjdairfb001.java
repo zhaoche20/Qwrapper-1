@@ -1,6 +1,7 @@
 package zhaomingqiang;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -220,14 +221,15 @@ public class Wrapper_gjdairfb001 implements QunarCrawler {
 							.getString("b_date_formatted_time"));
 					seg.setArrtime(flightInfoMap
 							.getString("e_date_formatted_time"));
-					seg.setDepDate(flightInfoMap.getString("b_date_date"));
-					seg.setArrDate(flightInfoMap.getString("e_date_date"));
+					seg.setDepDate(parseDate(flightInfoMap.getString("b_date_date")));
+					seg.setArrDate(parseDate(flightInfoMap.getString("e_date_date")));
 					segs.add(seg);
 					flightnoList.add(seg.getFlightno());
 				}
 				flightDetail.setDepcity(segs.get(0).getDepairport());
 				flightDetail.setArrcity(segs.get(list_segment.size() - 1)
 						.getArrairport());
+				
 				flightDetail.setDepdate(Date.valueOf(param.getDepDate()));
 				flightDetail.setFlightno(flightnoList);
 				baseFlight.setDetail(flightDetail);
@@ -364,5 +366,9 @@ public class Wrapper_gjdairfb001 implements QunarCrawler {
 
 		}
 		return priceMap;
+	}
+
+	public String parseDate(String s){
+		return s.substring(0, 4)+"-"+s.substring(4, 6)+"-"+s.substring(6, 8);
 	}
 }

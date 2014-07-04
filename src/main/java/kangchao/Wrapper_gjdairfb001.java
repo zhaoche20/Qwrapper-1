@@ -68,7 +68,6 @@ public class Wrapper_gjdairfb001 implements QunarCrawler {
 
 		String[] deptDate = param.getDepDate().split("-");
 		String deptdate = deptDate[0] + deptDate[1] + deptDate[2] + "0000";
-		System.out.println(deptdate + "." + dep + "" + arr);
 		String postUrl = "http://book.air.bg/plnext/bulgarian1/Override.action";
 		QFPostMethod post = new QFPostMethod(postUrl);
 		post.setRequestHeader("Referer", "http://www.air.bg/en");
