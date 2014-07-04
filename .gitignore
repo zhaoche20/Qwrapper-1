@@ -1,10 +1,9 @@
+/target/pom.xml
+/.project
+/.classpath
 /target
-
-/src/main/java/guoting
-/src/main/java/nipeng
-/src/main/java/qiurunjing
-/src/main/java/zhangbei
-/src/main/java/zhaomingqiang
-/src/main/java/zhangzhifang
-/project
+/.settings
+/src
 /pom.xml
+/Qwrapper.iml
+/README.md
