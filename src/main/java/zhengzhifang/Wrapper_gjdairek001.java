@@ -161,7 +161,6 @@ public class Wrapper_gjdairek001 implements QunarCrawler {
                     flightSegement.setArrDate(aDate);
                     flightSegement.setAvcanbin(avcanbin);
                     flightSegement.setCompany("EK");
-                    flightSegement.setCompany("MM");
                     segements.add(flightSegement);
                 }
                 detail.setDepcity(flightSearchParam.getDep());
