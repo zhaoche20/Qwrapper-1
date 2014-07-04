@@ -95,5 +95,27 @@ public class Test extends TestCase {
         qunarCrawler.getBookingInfo(flightSearchParam);
     }
 
+    public void testWrapper_gjd09082420()
+    {
+        long s=System.currentTimeMillis();
+
+        //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
+        QunarCrawler qunarCrawler=new Wrapper_gjd09082420();
+        FlightSearchParam flightSearchParam=new FlightSearchParam();
+        flightSearchParam.setDepDate("2014-08-30");
+        flightSearchParam.setDep("CAN");
+        flightSearchParam.setArr("SIN"); //SIN
+        String html=qunarCrawler.getHtml(flightSearchParam);
+        /*System.out.println("---------------------------------------------");
+        System.out.println(html);
+        System.out.println("---------------------------------------------");*/
+        ProcessResultInfo info= qunarCrawler.process(html, flightSearchParam);
+        System.out.println(System.currentTimeMillis()-s);
+        System.out.println(JSON.toJSONString(info));
+
+        System.out.println("====================================");
+        qunarCrawler.getBookingInfo(flightSearchParam);
+    }
+
 
 }
