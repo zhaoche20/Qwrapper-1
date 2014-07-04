@@ -79,10 +79,9 @@ public class Wrapper_gjd09082420 implements QunarCrawler {
                 OneWayFlightInfo oneWayFlightInfo = new OneWayFlightInfo();
                 data.add(oneWayFlightInfo);
                 String[] infoItems = StringUtils.substringsBetween(iter, "<td>", "</td>");
-
                 String monetaryunit = infoItems[0];
-                String tax = infoItems[1];
-                String price = infoItems[2];
+                String price= infoItems[1];
+                String tax= infoItems[2];
                 String flightno = infoItems[3];
                 String depairport = infoItems[5];
                 String arrairport = infoItems[6];

@@ -38,6 +38,7 @@ public class Wrapper_11eab9de15d implements QunarCrawler {
         flightSearchParam.setToken("");
         QFGetMethod get = null;
         String url = "http://amadeus.corp.qunar.com/RoundTrip?dep=" + dep + "&arr=" + arr + "&depDate=" + depDate + "&arrDate=" + retDate + "&CarrierId=KA";
+        System.out.println(url);
         try {
             httpClient = new QFHttpClient(flightSearchParam, true);
             get = new QFGetMethod(url);
@@ -82,8 +83,8 @@ public class Wrapper_11eab9de15d implements QunarCrawler {
                 data.add(roundTripFlightInfo);
                 String[] infoItems = StringUtils.substringsBetween(iter, "<td>", "</td>");
                 String monetaryunit = infoItems[0];
-                String tax = infoItems[1];
-                String price = infoItems[2];
+                String price= infoItems[1];
+                String tax= infoItems[2];
                 String flightno = infoItems[3];
                 String depairport = infoItems[5];
                 String arrairport = infoItems[6];
