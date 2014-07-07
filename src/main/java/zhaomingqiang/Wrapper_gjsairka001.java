@@ -26,7 +26,7 @@ import java.util.List;
  * Time: 上午10:25
  * To change this template use File | Settings | File Templates.
  */
-public class Wrapper_11eab9de15d implements QunarCrawler {
+public class Wrapper_gjsairka001 implements QunarCrawler {
     private static final String CODEBASE = "11eab9de15d";
     private QFHttpClient httpClient = null;
 

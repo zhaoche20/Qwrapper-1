@@ -25,7 +25,7 @@ import java.util.List;
  * 港龙航空
  * To change this template use File | Settings | File Templates.
  */
-public class Wrapper_gjd09082510 implements QunarCrawler {
+public class Wrapper_gjdairka001 implements QunarCrawler {
     private static final String CODEBASE = "gjd09082510";
     private QFHttpClient httpClient = null;
     public String getHtml(FlightSearchParam flightSearchParam) {

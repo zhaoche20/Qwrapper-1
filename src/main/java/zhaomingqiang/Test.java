@@ -2,12 +2,9 @@ package zhaomingqiang;
 
 import com.alibaba.fastjson.JSON;
 import com.qunar.qfwrapper.bean.search.FlightSearchParam;
-import com.qunar.qfwrapper.bean.search.OneWayFlightInfo;
 import com.qunar.qfwrapper.bean.search.ProcessResultInfo;
 import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import junit.framework.TestCase;
-
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,7 +56,7 @@ public class Test extends TestCase {
         long s=System.currentTimeMillis();
 
         //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
-        QunarCrawler qunarCrawler=new Wrapper_11eab9de15d();
+        QunarCrawler qunarCrawler=new Wrapper_gjsairka001();
         FlightSearchParam flightSearchParam=new FlightSearchParam();
         flightSearchParam.setDepDate("2014-07-04");
         flightSearchParam.setRetDate("2014-07-11");
@@ -81,7 +78,7 @@ public class Test extends TestCase {
         long s=System.currentTimeMillis();
 
         //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
-        QunarCrawler qunarCrawler=new Wrapper_gjd09082510();
+        QunarCrawler qunarCrawler=new Wrapper_gjdairka001();
         FlightSearchParam flightSearchParam=new FlightSearchParam();
         flightSearchParam.setDepDate("2014-07-04");
         flightSearchParam.setDep("PEK");
