@@ -28,9 +28,7 @@ import com.qunar.qfwrapper.util.QFHttpClient;
 import com.qunar.qfwrapper.util.QFPostMethod;
 
 /**
- * Insert the type's description here.
- * Creation date: (2014-7-11)
- * @author: zzf
+ * zhifang.zheng
  */
 public class Wrapper_gjsairmm001 implements QunarCrawler {
 

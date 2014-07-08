@@ -24,7 +24,7 @@ import com.qunar.qfwrapper.util.QFHttpClient;
 import com.travelco.rdf.infocenter.InfoCenter;
 /**
  * Created with IntelliJ IDEA.
- * User:
+ * User:runjing.qiu
  * Date: 14-7-1
  * Time: 上午10:55
  * To change this template use File | Settings | File Templates.

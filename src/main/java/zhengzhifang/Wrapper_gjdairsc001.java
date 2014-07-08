@@ -26,7 +26,9 @@ import com.qunar.qfwrapper.util.QFHttpClient;
 import com.qunar.qfwrapper.util.QFPostMethod;
 import com.travelco.rdf.infocenter.InfoCenter;
 
-
+/**
+ * zhifang.zheng
+ */
 public class Wrapper_gjdairsc001 implements QunarCrawler {
 
     private static final String CODEBASE = "gjdairsc001";

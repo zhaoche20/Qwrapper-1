@@ -26,6 +26,9 @@ import com.qunar.qfwrapper.constants.Constants;
 import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import com.qunar.qfwrapper.util.QFHttpClient;
 import com.qunar.qfwrapper.util.QFPostMethod;
+/**
+ * zhifang.zheng
+ */
 public class Wrapper_gjdairmm001 implements QunarCrawler {
 
     private static final String CODEBASE = "gjdairmm001";

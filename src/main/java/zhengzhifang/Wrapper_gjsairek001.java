@@ -22,6 +22,9 @@ import com.qunar.qfwrapper.constants.Constants;
 import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import com.qunar.qfwrapper.util.QFGetMethod;
 import com.qunar.qfwrapper.util.QFHttpClient;
+/**
+ * zhifang.zheng
+ */
 public class Wrapper_gjsairek001 implements QunarCrawler {
     private QFHttpClient httpClient = null;
     public static void main(String[] args) {

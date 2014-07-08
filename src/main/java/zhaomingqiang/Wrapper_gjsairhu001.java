@@ -15,35 +15,34 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
  * User: mingqiang.zhao
- * Date: 14-7-7
- * Time: 下午4:07
- * 海南航空
+ * Date: 14-7-8
+ * Time: 上午9:57
+ * To change this template use File | Settings | File Templates.
  */
-public class Wrapper_gjdairhu001 implements QunarCrawler{
-    private static final String CODEBASE = "gjdairhu001";
+public class Wrapper_gjsairhu001 implements QunarCrawler{
+
+    private static final String CODEBASE = "gjsairhu001";
     private QFHttpClient httpClient = null;
     public String getHtml(FlightSearchParam flightSearchParam) {
         String dep=flightSearchParam.getDep();
         String arr=flightSearchParam.getArr();
         String depDate=flightSearchParam.getDepDate();
+        String retDate=flightSearchParam.getRetDate();
         httpClient=new QFHttpClient(flightSearchParam,true);
         String postUrl = "http://hnair.travelsky.com/huet/bc10_av.do";
         NameValuePair[] nameValuePairs = {
                 new NameValuePair("queryPassengerType","0"),
                 new NameValuePair("dstCity",arr),
-                new NameValuePair("returnDate",depDate),
-                new NameValuePair("date","ONEWAY"),
-                new NameValuePair("tripType","ONEWAY"),
+                new NameValuePair("returnDate",retDate),
+                new NameValuePair("date","ROUNDTRIP"),
+                new NameValuePair("tripType","ROUNDTRIP"),
                 new NameValuePair("adultNum","1"),
                 new NameValuePair("bookSeatClass","E"),
                 new NameValuePair("city_name1",""),
@@ -59,7 +58,8 @@ public class Wrapper_gjdairhu001 implements QunarCrawler{
             throwExceptionByResponseCode(httpClient.executeMethod(postMethod),200);
             return postMethod.getResponseBodyAsString();
         } catch (Exception e) {
-           return "Exception";
+            e.printStackTrace();
+            return "Exception";
         } finally {
             if (postMethod != null) {
                 postMethod.releaseConnection();
@@ -78,39 +78,61 @@ public class Wrapper_gjdairhu001 implements QunarCrawler{
     }
     public ProcessResultInfo process(String html, FlightSearchParam flightSearchParam) {
         ProcessResultInfo processResultInfo=new ProcessResultInfo();
-        List<OneWayFlightInfo> oneWayFlightInfos= (List<OneWayFlightInfo>) processResultInfo.getData();
+        List<RoundTripFlightInfo> roundTripFlightInfoList= (List<RoundTripFlightInfo>) processResultInfo.getData();
         try
         {
-        String table= StringUtils.substringBetween(html,"class=\"view_table\"","</tbody>");
-        if(table.indexOf("很抱歉，您所查询"+flightSearchParam.getDepDate()+"的航班座位已售完")>0)
-        {
-            processResultInfo.setStatus(Constants.NO_RESULT);
+            String table= StringUtils.substringBetween(html,"class=\"view_table\"","</table>");
+            if(table.indexOf("很抱歉，您所查询"+flightSearchParam.getDepDate()+"的航班座位已售完")>0)
+            {
+                processResultInfo.setStatus(Constants.NO_RESULT);
+                return processResultInfo;
+            }
+            else if(table.indexOf("很抱歉，")>-1)
+            {
+                processResultInfo.setStatus(Constants.INVALID_DATE);
+                return processResultInfo;
+            }
+            if(table.indexOf("<tr class=\"tbody price_all\">")==-1)
+            {
+                String[] trs=StringUtils.substringsBetween(table,"<tr class=\"tbody\">","</tr>");
+                for(String tr : trs)
+                {
+                    RoundTripFlightInfo roundTripFlightInfo=getRoundTripFlightInfo(tr, flightSearchParam);
+                    if(roundTripFlightInfo!=null)
+                        roundTripFlightInfoList.add(roundTripFlightInfo);
+                }
+            }
+            else
+            {
+                if(!table.contains("id=\"sort_table\""))
+                {
+                    String deparrs[]=StringUtils.substringBetween(StringUtils.substringBetween(html,"<div class=\"calendar_title\">","</div>"),"<h1>","</h1>").replaceAll("\\s","").split("-");
+                    System.out.println(deparrs);
+                    table= StringUtils.substringBetween(html,"class=\"view_table\"","</tbody>");
+                    String[] trs=StringUtils.substringsBetween(table,"<tr class=\"tbody\">","<tr class=\"tbody price_all\">");
+                    for(String tr : trs)
+                    {
+                        RoundTripFlightInfo roundTripFlightInfo=getRoundTripFlightInfo(tr, flightSearchParam);
+                        if(roundTripFlightInfo!=null)
+                            roundTripFlightInfoList.add(roundTripFlightInfo);
+                    }
+                }
+            }
+            processResultInfo.setStatus(Constants.SUCCESS);
             return processResultInfo;
-        }
-        else if(table.indexOf("很抱歉，")>-1)
-        {
-            processResultInfo.setStatus(Constants.INVALID_DATE);
-            return processResultInfo;
-        }
-        String[] trs=StringUtils.substringsBetween(table,"<tr class=\"tbody\">","<tr class=\"tbody price_all\">");
-        for(String tr : trs)
-        {
-            OneWayFlightInfo oneWayFlightInfo=getOneWayFlightInfo(tr, flightSearchParam);
-            if(oneWayFlightInfo!=null)
-                oneWayFlightInfos.add(oneWayFlightInfo);
-        }
-        processResultInfo.setStatus(Constants.SUCCESS);
-        return processResultInfo;
         }catch (Exception e)
         {
             processResultInfo.setStatus(Constants.PARSING_FAIL);
             return processResultInfo;
         }
     }
-    private OneWayFlightInfo getOneWayFlightInfo(String tr,FlightSearchParam flightSearchParam) throws ParseException {
-        OneWayFlightInfo oneWayFlightInfo=new OneWayFlightInfo();
-        List<FlightSegement> info=oneWayFlightInfo.getInfo();
-        FlightDetail flightDetail=oneWayFlightInfo.getDetail();
+    private RoundTripFlightInfo getRoundTripFlightInfo(String tr,FlightSearchParam flightSearchParam) throws ParseException {
+        RoundTripFlightInfo roundTripFlightInfo=new RoundTripFlightInfo();
+        List<FlightSegement> info=roundTripFlightInfo.getInfo();
+        FlightDetail flightDetail=roundTripFlightInfo.getDetail();
+        roundTripFlightInfo.setRetdepdate(Date.valueOf(flightSearchParam.getRetDate()));
+        List<String> retFlightNos= roundTripFlightInfo.getRetflightno();
+        List<FlightSegement> retFlightSegements=roundTripFlightInfo.getRetinfo();
         String[] tds=StringUtils.substringsBetween(tr,"<td","</td>");
         if(tds[0].indexOf("lower_price hidden")>-1)
         {
@@ -158,56 +180,67 @@ public class Wrapper_gjdairhu001 implements QunarCrawler{
             flightDetail.getFlightno().addAll(nos);
             flightDetail.setPrice(Double.valueOf(StringUtils.substringBetween(tds[0],"class=\"lower_price hidden\">","</span>")));
         }
-        else
+        /*else
         {
-            List<String> prices=new ArrayList<String>();
-            Pattern pattern1=Pattern.compile("<b>￥(\\d+)</b>");
-            Matcher matcher1=pattern1.matcher(tr);
-            while (matcher1.find())
-            {
-                prices.add(matcher1.group(1));
-            }
-            if(prices.size()==0)
-            {
+            String price=StringUtils.substringAfter(tds[8],"￥");
+            if(price==null)
                 return null;
-            }
-            FlightSegement flightSegement=new FlightSegement();
-            flightSegement.setDepairport(flightSearchParam.getDep());
-            flightSegement.setArrairport(flightSearchParam.getArr());
-            flightSegement.setFlightno(StringUtils.substringAfter(tds[0], ">"));
-            flightSegement.setDepDate(flightSearchParam.getDepDate());
             List<String> dateTimes=new ArrayList<String>();
             Pattern pattern=Pattern.compile("\\d{2}:\\d{2}");
-            Matcher matcher=pattern.matcher(tds[1]);
+            Matcher matcher=pattern.matcher(tds[3]);
             while (matcher.find())
             {
                 dateTimes.add(matcher.group());
             }
-            flightSegement.setDeptime(dateTimes.get(0));
-            flightSegement.setArrtime(dateTimes.get(1));
-            if(tds[1].indexOf("+")>-1)
+            String [] times=tds[3].split("<br />");
+            FlightSegement goflightSegement=new FlightSegement();
+            goflightSegement.setDepairport(flightSearchParam.getDep());
+            goflightSegement.setArrairport(flightSearchParam.getArr());
+            goflightSegement.setFlightno(StringUtils.substringBetween(tds[1], ">","<br />"));
+            goflightSegement.setDepDate(flightSearchParam.getDepDate());
+            if(times[0].indexOf("+")>-1)
             {
-                flightSegement.setArrDate(getDate(flightSearchParam.getDepDate(),1));
+                goflightSegement.setArrDate(getDate(flightSearchParam.getDepDate(),1));
             }
             else
             {
-                flightSegement.setArrDate(flightSearchParam.getDepDate());
+                goflightSegement.setArrDate(flightSearchParam.getDepDate());
             }
-            info.add(flightSegement);
+            goflightSegement.setDeptime(dateTimes.get(0));
+            goflightSegement.setArrtime(dateTimes.get(1));
+
+            FlightSegement returnflightSegement=new FlightSegement();
+            returnflightSegement.setDepairport(flightSearchParam.getArr());
+            returnflightSegement.setArrairport(flightSearchParam.getDep());
+            returnflightSegement.setFlightno(StringUtils.substringAfter(tds[1], "<br />"));
+            returnflightSegement.setDepDate(flightSearchParam.getRetDate());
+            if(times[1].indexOf("+")>-1)
+            {
+                returnflightSegement.setArrDate(getDate(flightSearchParam.getDepDate(),1));
+            }
+            else
+            {
+                returnflightSegement.setArrDate(flightSearchParam.getDepDate());
+            }
+            returnflightSegement.setDeptime(dateTimes.get(2));
+            returnflightSegement.setArrtime(dateTimes.get(3));
+            info.add(goflightSegement);
+            retFlightSegements.add(returnflightSegement);
+            retFlightNos.add(returnflightSegement.getFlightno());
             flightDetail.setArrcity(flightSearchParam.getArr());
             flightDetail.setDepcity(flightSearchParam.getDep());
             flightDetail.setDepdate(Date.valueOf(flightSearchParam.getDepDate()));
             flightDetail.setMonetaryunit("CNY");
-            flightDetail.getFlightno().add(flightSegement.getFlightno());
-            flightDetail.setPrice(Double.valueOf(prices.get(prices.size()-1)));
-        }
-        return oneWayFlightInfo;
+            flightDetail.getFlightno().add(goflightSegement.getFlightno());
+            flightDetail.setPrice(Double.valueOf(price));
+        }*/
+        return roundTripFlightInfo;
     }
     private String getDate(String date,int day) throws ParseException {
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(dateFormat.parse(date));
-        calendar.add(Calendar.DAY_OF_YEAR,day);
+        calendar.add(Calendar.DAY_OF_YEAR, day);
         return dateFormat.format(calendar.getTime());
     }
     public BookingResult getBookingInfo(FlightSearchParam flightSearchParam) {

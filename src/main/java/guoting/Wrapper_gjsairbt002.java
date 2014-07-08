@@ -21,6 +21,9 @@ import com.qunar.qfwrapper.developer.QFGetMethod;
 import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import com.qunar.qfwrapper.util.QFHttpClient;
 
+/**
+ *  User: ting.guo
+ */
 public class Wrapper_gjsairbt002 implements QunarCrawler {
 
     public static void main(String[] args) {

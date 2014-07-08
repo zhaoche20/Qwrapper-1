@@ -22,7 +22,7 @@ import com.qunar.qfwrapper.util.QFGetMethod;
 import com.qunar.qfwrapper.util.QFHttpClient;
 
 /**
- * guoting
+ *  User: ting.guo
  */
 public class Wrapper_gjdairbt002 implements QunarCrawler {
 

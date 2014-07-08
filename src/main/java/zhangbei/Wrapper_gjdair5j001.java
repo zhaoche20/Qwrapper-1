@@ -23,7 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by mingqiang.zhao on 2014/5/14.
+ * Created by bei.zhang on 2014/5/14.
  * 宿务太平洋航空
  * 单向飞行
  */
