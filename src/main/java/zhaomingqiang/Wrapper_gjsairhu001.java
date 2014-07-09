@@ -92,30 +92,26 @@ public class Wrapper_gjsairhu001 implements QunarCrawler{
                 processResultInfo.setStatus(Constants.INVALID_DATE);
                 return processResultInfo;
             }
-            if(table.indexOf("<tr class=\"tbody price_all\">")==-1)
+            if(!table.contains("id=\"sort_table\""))
             {
                 String[] trs=StringUtils.substringsBetween(table,"<tr class=\"tbody\">","</tr>");
                 for(String tr : trs)
                 {
-                    RoundTripFlightInfo roundTripFlightInfo=getRoundTripFlightInfo(tr, flightSearchParam);
+                    RoundTripFlightInfo roundTripFlightInfo=getRoundTripFlightInfo(tr, flightSearchParam,false,null);
                     if(roundTripFlightInfo!=null)
                         roundTripFlightInfoList.add(roundTripFlightInfo);
                 }
             }
             else
             {
-                if(!table.contains("id=\"sort_table\""))
+                String arr=StringUtils.substringBetween(StringUtils.substringBetween(html,"<div class=\"calendar_title\">","</div>"),"<h1>","</h1>").replaceAll("\\s","").split("-")[1];
+                table= StringUtils.substringBetween(html,"class=\"view_table\"","</tbody>");
+                String[] trs=StringUtils.substringsBetween(table,"<tr class=\"tbody\">","<tr class=\"tbody price_all\">");
+                for(String tr : trs)
                 {
-                    String deparrs[]=StringUtils.substringBetween(StringUtils.substringBetween(html,"<div class=\"calendar_title\">","</div>"),"<h1>","</h1>").replaceAll("\\s","").split("-");
-                    System.out.println(deparrs);
-                    table= StringUtils.substringBetween(html,"class=\"view_table\"","</tbody>");
-                    String[] trs=StringUtils.substringsBetween(table,"<tr class=\"tbody\">","<tr class=\"tbody price_all\">");
-                    for(String tr : trs)
-                    {
-                        RoundTripFlightInfo roundTripFlightInfo=getRoundTripFlightInfo(tr, flightSearchParam);
-                        if(roundTripFlightInfo!=null)
-                            roundTripFlightInfoList.add(roundTripFlightInfo);
-                    }
+                    RoundTripFlightInfo roundTripFlightInfo=getRoundTripFlightInfo(tr, flightSearchParam,true,arr);
+                    if(roundTripFlightInfo!=null)
+                        roundTripFlightInfoList.add(roundTripFlightInfo);
                 }
             }
             processResultInfo.setStatus(Constants.SUCCESS);
@@ -126,7 +122,7 @@ public class Wrapper_gjsairhu001 implements QunarCrawler{
             return processResultInfo;
         }
     }
-    private RoundTripFlightInfo getRoundTripFlightInfo(String tr,FlightSearchParam flightSearchParam) throws ParseException {
+    private RoundTripFlightInfo getRoundTripFlightInfo(String tr,FlightSearchParam flightSearchParam,boolean bool,String arr) throws ParseException {
         RoundTripFlightInfo roundTripFlightInfo=new RoundTripFlightInfo();
         List<FlightSegement> info=roundTripFlightInfo.getInfo();
         FlightDetail flightDetail=roundTripFlightInfo.getDetail();
@@ -134,8 +130,22 @@ public class Wrapper_gjsairhu001 implements QunarCrawler{
         List<String> retFlightNos= roundTripFlightInfo.getRetflightno();
         List<FlightSegement> retFlightSegements=roundTripFlightInfo.getRetinfo();
         String[] tds=StringUtils.substringsBetween(tr,"<td","</td>");
-        if(tds[0].indexOf("lower_price hidden")>-1)
+        if(bool)
         {
+            int index=-1;
+            String[]deparrs=StringUtils.substringAfter(tds[0],"</span>").split("<br />");
+            for(int i=0,len=deparrs.length;i<len;i++)
+            {
+                if(deparrs[i].startsWith(arr))
+                {
+                    index=i;
+                    break;
+                }
+            }
+            if(index==-1)
+            {
+                return null;
+            }
             String[] as=StringUtils.substringsBetween(tds[1],"<a","</a>");
             List<String> nos=new ArrayList<String>();
             List<String> dateTimes=new ArrayList<String>();
@@ -153,34 +163,61 @@ public class Wrapper_gjsairhu001 implements QunarCrawler{
             for(String no : nos)
             {
                 FlightSegement flightSegement=new FlightSegement();
-                flightSegement.setDepairport(flightSearchParam.getDep());
-                if(j==nos.size()-1)
+                if(j<index)
                 {
-                    flightSegement.setArrairport(flightSearchParam.getArr());
+                    flightSegement.setDepairport(flightSearchParam.getDep());
+                    if(j==index-1)
+                    {
+                        flightSegement.setArrairport(flightSearchParam.getArr());
+                    }
+                    else
+                    {
+                        flightSegement.setArrairport("XXX");
+                    }
+                    flightSegement.setFlightno(no);
+                    String[] depDateTime=dateTimes.get(i).split(" ");
+                    flightSegement.setDepDate(depDateTime[0]);
+                    flightSegement.setDeptime(depDateTime[1]);
+                    i++;
+                    String[] retDateTime=dateTimes.get(i).split(" ");
+                    flightSegement.setArrDate(retDateTime[0]);
+                    flightSegement.setArrtime(retDateTime[1]);
+                    j++;
+                    info.add(flightSegement);
+                    flightDetail.getFlightno().add(no);
                 }
                 else
                 {
-                    flightSegement.setArrairport("XXX");
+                    flightSegement.setDepairport(flightSearchParam.getArr());
+                    if(j==nos.size()-1)
+                    {
+                        flightSegement.setArrairport(flightSearchParam.getDep());
+                    }
+                    else
+                    {
+                        flightSegement.setArrairport("XXX");
+                    }
+                    flightSegement.setFlightno(no);
+                    String[] depDateTime=dateTimes.get(i).split(" ");
+                    flightSegement.setDepDate(depDateTime[0]);
+                    flightSegement.setDeptime(depDateTime[1]);
+                    i++;
+                    String[] retDateTime=dateTimes.get(i).split(" ");
+                    flightSegement.setArrDate(retDateTime[0]);
+                    flightSegement.setArrtime(retDateTime[1]);
+                    j++;
+                    retFlightSegements.add(flightSegement);
+                    retFlightNos.add(no);
                 }
-                flightSegement.setFlightno(no);
-                String[] depDateTime=dateTimes.get(i).split(" ");
-                flightSegement.setDepDate(depDateTime[0]);
-                flightSegement.setDeptime(depDateTime[1]);
                 i++;
-                String[] retDateTime=dateTimes.get(i).split(" ");
-                flightSegement.setArrDate(retDateTime[0]);
-                flightSegement.setArrtime(retDateTime[1]);
-                j++;
-                info.add(flightSegement);
             }
             flightDetail.setArrcity(flightSearchParam.getArr());
             flightDetail.setDepcity(flightSearchParam.getDep());
             flightDetail.setDepdate(Date.valueOf(flightSearchParam.getDepDate()));
             flightDetail.setMonetaryunit("CNY");
-            flightDetail.getFlightno().addAll(nos);
             flightDetail.setPrice(Double.valueOf(StringUtils.substringBetween(tds[0],"class=\"lower_price hidden\">","</span>")));
         }
-        /*else
+        else
         {
             String price=StringUtils.substringAfter(tds[8],"￥");
             if(price==null)
@@ -233,7 +270,7 @@ public class Wrapper_gjsairhu001 implements QunarCrawler{
             flightDetail.setMonetaryunit("CNY");
             flightDetail.getFlightno().add(goflightSegement.getFlightno());
             flightDetail.setPrice(Double.valueOf(price));
-        }*/
+        }
         return roundTripFlightInfo;
     }
     private String getDate(String date,int day) throws ParseException {
@@ -248,6 +285,7 @@ public class Wrapper_gjsairhu001 implements QunarCrawler{
         String dep = flightSearchParam.getDep();
         String arr = flightSearchParam.getArr();
         String depDate = flightSearchParam.getDepDate();
+        String retDate=flightSearchParam.getRetDate();
         BookingInfo bookingInfo = new BookingInfo();
         java.util.Map<String, String> inputs = new HashMap<String, String>();
         bookingInfo.setAction("http://hnair.travelsky.com/huet/bc10_av.do");
@@ -256,10 +294,10 @@ public class Wrapper_gjsairhu001 implements QunarCrawler{
         inputs.put("WT.mc_id", "ad_from_qunar");
         inputs.put("queryPassengerType", "0");
         inputs.put("dstCity", dep);
-        inputs.put("returnDate", depDate);
-        inputs.put("date", "ONEWAY");
+        inputs.put("returnDate", retDate);
+        inputs.put("date", "ROUNDTRIP");
         inputs.put("takeoffDate", depDate);
-        inputs.put("tripType", "ONEWAY");
+        inputs.put("tripType", "ROUNDTRIP");
         inputs.put("CABINCLASS", "Y");
         inputs.put("adultNum", "1");
         inputs.put("bookSeatClass", "E");

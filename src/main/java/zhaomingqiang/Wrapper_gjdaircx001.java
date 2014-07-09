@@ -24,8 +24,8 @@ import java.util.List;
  * Time: 下午1:46
  * 国泰航空
  */
-public class Wrapper_gjd09082420 implements QunarCrawler {
-    private static final String CODEBASE = "gjd09082420";
+public class Wrapper_gjdaircx001 implements QunarCrawler {
+    private static final String CODEBASE = "gjdaircx001";
     private QFHttpClient httpClient = null;
 
     public String getHtml(FlightSearchParam flightSearchParam) {

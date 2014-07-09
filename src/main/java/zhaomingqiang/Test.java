@@ -100,7 +100,7 @@ public class Test extends TestCase {
         long s=System.currentTimeMillis();
 
         //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
-        QunarCrawler qunarCrawler=new Wrapper_gjd09082420();
+        QunarCrawler qunarCrawler=new Wrapper_gjdaircx001();
         FlightSearchParam flightSearchParam=new FlightSearchParam();
         flightSearchParam.setDepDate("2014-08-30");
         flightSearchParam.setDep("CAN");
@@ -124,10 +124,10 @@ public class Test extends TestCase {
         //String url = "dep=PUS&arr=NRT&date=2014-05-14&from=Qunar";
         QunarCrawler qunarCrawler=new Wrapper_gjdairhu001();
         FlightSearchParam flightSearchParam=new FlightSearchParam();
-        flightSearchParam.setDepDate("2014-07-11");
+        flightSearchParam.setDepDate("2014-07-17");
         flightSearchParam.setDep("PEK");
         //flightSearchParam.setArr("BER");
-        flightSearchParam.setArr("CKG");
+        flightSearchParam.setArr("KWE");
         String html=qunarCrawler.getHtml(flightSearchParam);
         System.out.println("---------------------------------------------");
         System.out.println(html);
@@ -146,8 +146,8 @@ public class Test extends TestCase {
         flightSearchParam.setDepDate("2014-07-17");
         flightSearchParam.setRetDate("2014-07-20");
         flightSearchParam.setDep("PEK");
-        flightSearchParam.setArr("BER");
-        //flightSearchParam.setArr("KWE");
+        //flightSearchParam.setArr("BER");
+        flightSearchParam.setArr("KWE");
         String html=qunarCrawler.getHtml(flightSearchParam);
         System.out.println("---------------------------------------------");
         System.out.println(html);

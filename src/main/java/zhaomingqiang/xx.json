@@ -6,7 +6,7 @@
             "depdate": 1405526400000,
             "flightno": ["HU7189"],
             "monetaryunit": "CNY",
-            "price": 3160,
+            "price": 1579,
             "status": 0,
             "tax": 0
         },
@@ -21,23 +21,7 @@
                 "deptime": "07:45",
                 "flightno": "HU7189"
             }
-        ],
-        "outboundPrice": 0,
-        "retdepdate": 1405785600000,
-        "retflightno": ["HU7106"],
-        "retinfo": [
-            {
-                "arrDate": "2014-07-18",
-                "arrairport": "PEK",
-                "arrtime": "00:25",
-                "company": "HU",
-                "depDate": "2014-07-20",
-                "depairport": "KWE",
-                "deptime": "21:25",
-                "flightno": "HU7106"
-            }
-        ],
-        "returnedPrice": 0
+        ]
     },
     {
         "detail": {
@@ -46,7 +30,7 @@
             "depdate": 1405526400000,
             "flightno": ["HU7105"],
             "monetaryunit": "CNY",
-            "price": 3260,
+            "price": 1691,
             "status": 0,
             "tax": 0
         },
@@ -61,102 +45,6 @@
                 "deptime": "17:10",
                 "flightno": "HU7105"
             }
-        ],
-        "outboundPrice": 0,
-        "retdepdate": 1405785600000,
-        "retflightno": ["HU7106"],
-        "retinfo": [
-            {
-                "arrDate": "2014-07-18",
-                "arrairport": "PEK",
-                "arrtime": "00:25",
-                "company": "HU",
-                "depDate": "2014-07-20",
-                "depairport": "KWE",
-                "deptime": "21:25",
-                "flightno": "HU7106"
-            }
-        ],
-        "returnedPrice": 0
-    },
-    {
-        "detail": {
-            "arrcity": "KWE",
-            "depcity": "PEK",
-            "depdate": 1405526400000,
-            "flightno": ["HU7189"],
-            "monetaryunit": "CNY",
-            "price": 3460,
-            "status": 0,
-            "tax": 0
-        },
-        "info": [
-            {
-                "arrDate": "2014-07-17",
-                "arrairport": "KWE",
-                "arrtime": "10:50",
-                "company": "HU",
-                "depDate": "2014-07-17",
-                "depairport": "PEK",
-                "deptime": "07:45",
-                "flightno": "HU7189"
-            }
-        ],
-        "outboundPrice": 0,
-        "retdepdate": 1405785600000,
-        "retflightno": ["HU7190"],
-        "retinfo": [
-            {
-                "arrDate": "2014-07-17",
-                "arrairport": "PEK",
-                "arrtime": "14:35",
-                "company": "HU",
-                "depDate": "2014-07-20",
-                "depairport": "KWE",
-                "deptime": "11:50",
-                "flightno": "HU7190"
-            }
-        ],
-        "returnedPrice": 0
-    },
-    {
-        "detail": {
-            "arrcity": "KWE",
-            "depcity": "PEK",
-            "depdate": 1405526400000,
-            "flightno": ["HU7105"],
-            "monetaryunit": "CNY",
-            "price": 3560,
-            "status": 0,
-            "tax": 0
-        },
-        "info": [
-            {
-                "arrDate": "2014-07-17",
-                "arrairport": "KWE",
-                "arrtime": "20:15",
-                "company": "HU",
-                "depDate": "2014-07-17",
-                "depairport": "PEK",
-                "deptime": "17:10",
-                "flightno": "HU7105"
-            }
-        ],
-        "outboundPrice": 0,
-        "retdepdate": 1405785600000,
-        "retflightno": ["HU7190"],
-        "retinfo": [
-            {
-                "arrDate": "2014-07-17",
-                "arrairport": "PEK",
-                "arrtime": "14:35",
-                "company": "HU",
-                "depDate": "2014-07-20",
-                "depairport": "KWE",
-                "deptime": "11:50",
-                "flightno": "HU7190"
-            }
-        ],
-        "returnedPrice": 0
+        ]
     }
 ], "ret": true, "status": "SUCCESS"}
