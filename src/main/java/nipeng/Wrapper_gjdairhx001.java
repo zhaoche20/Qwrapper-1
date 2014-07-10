@@ -1,3 +1,4 @@
+package nipeng;
 import com.google.common.collect.Lists;
 import com.qunar.qfwrapper.bean.booking.BookingInfo;
 import com.qunar.qfwrapper.bean.booking.BookingResult;
@@ -7,16 +8,12 @@ import com.qunar.qfwrapper.developer.QFGetMethod;
 import com.qunar.qfwrapper.interfaces.QunarCrawler;
 import com.qunar.qfwrapper.util.QFHttpClient;
 import com.qunar.qfwrapper.util.QFPostMethod;
-
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
-
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +21,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -69,10 +68,10 @@ public class Wrapper_gjdairhx001 implements QunarCrawler {
             }
 
             String tmp = get.getResponseBodyAsString();
-            System.out.println("****************************");
-            System.out.println(tmp);
-            System.out.println("****************************");
-            String random = com.travelco.html.tools.StringUtils.getValue(tmp, "<input type=\"hidden\"  name=\"random\" value='", "' />");
+//            System.out.println("****************************");
+//            System.out.println(tmp);
+//            System.out.println("****************************");
+            String random = getValue(tmp, "<input type=\"hidden\"  name=\"random\" value='", "' />");
             String postBody = new String("orgcitycode=" + param.getDep() +
                     "&orgcity=" + param.getDep() +
                     "&dstcity=" + param.getArr() +
@@ -96,16 +95,16 @@ public class Wrapper_gjdairhx001 implements QunarCrawler {
 
 
             tmp = post.getResponseBodyAsString();
-            System.out.println("****************************");
-            System.out.println(tmp);
-            System.out.println("****************************");
+//            System.out.println("****************************");
+//            System.out.println(tmp);
+//            System.out.println("****************************");
 
-         return tmp;
+            return tmp;
 
         } catch (Exception e) {
             e.printStackTrace();
             if (!e.getMessage().equals("Connection refused: connect"))
-            logger.error("ErrorIn " + CODEBASE + " : " + url, e);
+                logger.error("ErrorIn " + CODEBASE + " : " + url, e);
         } finally {
             if (get != null) {
                 get.releaseConnection();
@@ -117,6 +116,37 @@ public class Wrapper_gjdairhx001 implements QunarCrawler {
         return "Exception";
 
 
+    }
+
+    public String[] getValues(String source, String st, String end) {
+        String target = "";
+        int a, b;
+        while (true) {
+            a = source.indexOf(st);
+            if (a == -1)
+                break;
+            b = source.indexOf(end, a + st.length());
+            if (b == -1)
+                break;
+            target += source.substring(a + st.length(), b) + "##@@##";
+            source = source.substring(b);
+        }
+        return target.split("##@@##");
+    }
+
+    public String getValue(String source, String regEx) {
+        Matcher mm = Pattern.compile(regEx).matcher(source);
+        return mm.find() ? mm.group(mm.groupCount() > 0 ? 1 : 0) : "";
+    }
+
+    public String getValue(String source, String st, String end) {
+        int a = source.indexOf(st);
+        if (a == -1)
+            return "";
+        int b = source.indexOf(end, a + st.length());
+        if (b == -1)
+            return "";
+        return source.substring(a + st.length(), b);
     }
 
     @Override
@@ -132,9 +162,9 @@ public class Wrapper_gjdairhx001 implements QunarCrawler {
             return processResultInfo;
         }else if (html.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")){
 //            return HxWebserviceDataProcess.processData(html, CODEBASE, url);
-            System.out.println("**********************************");
-            System.out.println("XML");
-            System.out.println("**********************************");
+            //  System.out.println("**********************************");
+            //    System.out.println("XML");
+            //     System.out.println("**********************************");
             processResultInfo.setData(data);
             processResultInfo.setRet(false);
             processResultInfo.setStatus(Constants.NO_RESULT);
@@ -165,7 +195,7 @@ public class Wrapper_gjdairhx001 implements QunarCrawler {
             return processResultInfo;
         }
 
-        String random = com.travelco.html.tools.StringUtils.getValue(html, "<input type=\"hidden\"  name=\"random\" value='", "' />");
+        String random = getValue(html, "<input type=\"hidden\"  name=\"random\" value='", "' />");
         String[] flightRawData=StringUtils.substringsBetween(html,"<tr id=\"trOW","<!-- end seg -->");
         for(String subData:flightRawData)
         {
@@ -183,8 +213,8 @@ public class Wrapper_gjdairhx001 implements QunarCrawler {
             String[] plane=StringUtils.substringsBetween(subFlightDataJson,"aircraft:'","',");
             String pek_departureDate=StringUtils.substringBetween(subData, "<input type=\"hidden\" name=\"pek_departureDate\" value=\"", "\"/>");
             String pek_arriveDate=StringUtils.substringBetween(subData, "<input type=\"hidden\" name=\"pek_arriveDate\" value=\"", "\"/>");
-            System.out.println("=======================================================");
-           // List<String> priceInfo=getPrice(html,params,random,subFlightDataJson,pek_departureDate,pek_arriveDate);
+            //      System.out.println("=======================================================");
+            // List<String> priceInfo=getPrice(html,params,random,subFlightDataJson,pek_departureDate,pek_arriveDate);
             if(priceInfoMain==null)
                 priceInfoMain=getPrice(html,params,random,subFlightDataJson,pek_departureDate,pek_arriveDate);
             for(int i=0;i<flightNo.length;i++)
@@ -223,9 +253,18 @@ public class Wrapper_gjdairhx001 implements QunarCrawler {
             if(priceInfoMain!=null)
             {
 
-            detail.setMonetaryunit(priceInfoMain.get(0));
-            detail.setPrice(Double.parseDouble(priceInfoMain.get(2)));
-            detail.setTax(Double.parseDouble(priceInfoMain.get(1)));
+                detail.setMonetaryunit(priceInfoMain.get(0));
+                if(priceInfoMain.get(2).contains(","))
+                {
+                    priceInfoMain.set(2,priceInfoMain.get(2).split(",")[0]+priceInfoMain.get(2).split(",")[1]);
+                }else  if(priceInfoMain.get(1).contains(","))
+                {
+                    priceInfoMain.set(1, priceInfoMain.get(1).split(",")[0] + priceInfoMain.get(1).split(",")[1]);
+                }
+                detail.setPrice(Double.parseDouble(priceInfoMain.get(2)));
+                detail.setTax(Double.parseDouble(priceInfoMain.get(1)));
+
+
 
             }
             oneWayFlightInfo.setDetail(detail);
@@ -275,9 +314,9 @@ public class Wrapper_gjdairhx001 implements QunarCrawler {
         try {
             httpClient.executeMethod(post);
             String result=post.getResponseBodyAsString();
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-            System.out.println(result);
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+//            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+//            System.out.println(result);
+//            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
             String taxRaw=StringUtils.substringBetween(result,"<td colspan=\"2\">","</td>").trim();
             if(taxRaw==null||taxRaw.equals(""))
